@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "647350868826",
+    "firebase_url": "https://eventsadd-f138a.firebaseio.com",
+    "project_id": "eventsadd-f138a",
+    "storage_bucket": "eventsadd-f138a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:647350868826:android:c0a6cec2612b31df",
+        "android_client_info": {
+          "package_name": "id.restabayu.eventsadd"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "647350868826-jg6tpbgkjtdgeinvi79nqnv73ttpuap6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.restabayu.eventsadd",
+            "certificate_hash": "dca41cb4a16456a5021440fe5ed82993f40c3fb3"
+          }
+        },
+        {
+          "client_id": "647350868826-pif3dttgebvcm4liotcojgn2quatn0u3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5xBykIlLl8upv0z2p4LJuMjnz0eIMCps"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647350868826-pif3dttgebvcm4liotcojgn2quatn0u3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
