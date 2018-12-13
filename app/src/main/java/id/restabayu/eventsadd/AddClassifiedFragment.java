@@ -14,6 +14,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -24,16 +31,26 @@ import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class AddClassifiedFragment extends Fragment {
     private static final String TAG = "AddEventFragment";
-
     private DatabaseReference dbRef;
     private int nextClassifiedID;
     private boolean isEdit;
     private String eventId;
     private Button button;
     private TextView headTxt;
+
+    //nyobo volley
+    private RequestQueue mRequestQue;
+    private String URL = "https://fcm.googleapis.com/fcm/send";
+    //nyobo volley tutup
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,8 +61,10 @@ public class AddClassifiedFragment extends Fragment {
 
         button = (Button) view.findViewById(R.id.post_add);
         headTxt = view.findViewById(R.id.add_head_tv);
-
         dbRef = FirebaseDatabase.getInstance().getReference();
+        //nyobo volley
+        mRequestQue = Volley.newRequestQueue(getActivity());
+        //nyobo volley tutup
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,9 +74,54 @@ public class AddClassifiedFragment extends Fragment {
                 } else {
                     updateEvent();
                 }
+                //nyobo volley
+                sendNotification();
 
+                //nyobo volley tutup
             }
-        });
+            //nyobo volley bukak (notifikasi sender)
+            private void sendNotification() {
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("to","/topics/"+"news");
+                    JSONObject notificationObj = new JSONObject();
+                    notificationObj.put("title","IK EVENT");
+                    notificationObj.put("body","ada acara baru nih guys, ayo dicek !");
+                    json.put("notification",notificationObj);
+
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                            json,
+                            new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+
+                                    Log.d("MUR", "onResponse: ");
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("MUR", "onError: "+error.networkResponse);
+                        }
+                    }
+                    ){
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String,String> header = new HashMap<>();
+                            header.put("content-type","application/json");
+                            header.put("authorization","key=AIzaSyB1C7zEeYTlRI52w2lhcxl_JGuebql9S3Q");
+                            return header;
+                        }
+                    };
+                    mRequestQue.add(request);
+                }
+                catch (JSONException e)
+
+                {
+                    e.printStackTrace();
+                }
+            }
+        });  //nyobo volley tutup.
+
 
         //add or update depending on existence of eventId in arguments
         if (getArguments() != null) {
@@ -122,6 +186,7 @@ public class AddClassifiedFragment extends Fragment {
             }
 
             @Override
+
             public void onComplete(DatabaseError databaseError, boolean state,
                                    DataSnapshot dataSnapshot) {
                 if (state) {

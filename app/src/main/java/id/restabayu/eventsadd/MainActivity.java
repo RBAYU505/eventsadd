@@ -1,6 +1,8 @@
 package id.restabayu.eventsadd;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -56,4 +58,20 @@ public class MainActivity extends AppCompatActivity {
             ft.replace(R.id.adds_frame, new ViewClassifiedFragment());
             ft.commit();
         }
+    /************************************EXIT DIALOG************************************/
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this)
+                .setTitle("Apakah anda yakin ingin keluar ?")
+                .setPositiveButton("Ya", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("Tidak", null)
+                .show();
+    }
 }

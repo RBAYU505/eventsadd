@@ -49,13 +49,16 @@
         app:layout_constraintLeft_toRightOf="@+id/category_lv"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/head_view_tv" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ads_lst"
-        android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:paddingBottom="150dp"
+        android:scrollbars="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tampilkan_b"/>
+        app:layout_constraintTop_toBottomOf="@+id/tampilkan_b" />
+
 </android.support.constraint.ConstraintLayout>
