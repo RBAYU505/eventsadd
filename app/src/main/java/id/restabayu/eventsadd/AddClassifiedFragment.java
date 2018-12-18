@@ -74,53 +74,9 @@ public class AddClassifiedFragment extends Fragment {
                 } else {
                     updateEvent();
                 }
-                //nyobo volley
-                sendNotification();
-
-                //nyobo volley tutup
             }
-            //nyobo volley bukak (notifikasi sender)
-            private void sendNotification() {
-                JSONObject json = new JSONObject();
-                try {
-                    json.put("to","/topics/"+"news");
-                    JSONObject notificationObj = new JSONObject();
-                    notificationObj.put("title","IK EVENT");
-                    notificationObj.put("body","ada acara baru nih guys, ayo dicek !");
-                    json.put("notification",notificationObj);
+        });
 
-                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
-                            json,
-                            new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-
-                                    Log.d("MUR", "onResponse: ");
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("MUR", "onError: "+error.networkResponse);
-                        }
-                    }
-                    ){
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            Map<String,String> header = new HashMap<>();
-                            header.put("content-type","application/json");
-                            header.put("authorization","key=AIzaSyB1C7zEeYTlRI52w2lhcxl_JGuebql9S3Q");
-                            return header;
-                        }
-                    };
-                    mRequestQue.add(request);
-                }
-                catch (JSONException e)
-
-                {
-                    e.printStackTrace();
-                }
-            }
-        });  //nyobo volley tutup.
 
 
         //add or update depending on existence of eventId in arguments
@@ -195,7 +151,7 @@ public class AddClassifiedFragment extends Fragment {
                 } else {
                     Log.d(TAG, "Classified id retrieval unsuccessful " + databaseError);
                     Toast.makeText(getActivity(),
-                            "There is a problem, please submit event post again",
+                            "inisasi id berhasil dibuat, silahkan tekan tambahkan",
                             Toast.LENGTH_SHORT).show();
                 }
 
@@ -216,15 +172,61 @@ public class AddClassifiedFragment extends Fragment {
                             }else{
                                 restUi();
                             }
-                            Log.d(TAG, "Classified has been added to db");
+                            Log.d(TAG, "Classified berhasil di tambahkan ke database");
                             Toast.makeText(getActivity(),
-                                    "Classified has been posted",
+                                    "Acara berhasil di posting",
                                     Toast.LENGTH_SHORT).show();
+                            //nyobo volley
+                            sendNotification();
+
+                            //nyobo volley tutup
                         } else {
-                            Log.d(TAG, "Classified couldn't be added to db");
+                            Log.d(TAG, "Classified gagal di tambahkan ke database");
                             Toast.makeText(getActivity(),
-                                    "Classified could not be added",
+                                    "Acara gagal ditambahkan",
                                     Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    private void sendNotification() {
+
+                        JSONObject json = new JSONObject();
+                        try {
+                            json.put("to","/topics/"+"news");
+                            JSONObject notificationObj = new JSONObject();
+                            notificationObj.put("title","UKM IK EVENT");
+                            notificationObj.put("body","ada acara baru nih guys, ayo silahkan dicek !");
+                            json.put("notification",notificationObj);
+
+                            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL,
+                                    json,
+                                    new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+
+                                            Log.d("MUR", "onResponse: ");
+                                        }
+                                    }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.d("MUR", "onError: "+error.networkResponse);
+                                }
+                            }
+                            ){
+                                @Override
+                                public Map<String, String> getHeaders() throws AuthFailureError {
+                                    Map<String,String> header = new HashMap<>();
+                                    header.put("content-type","application/json");
+                                    header.put("authorization","key=AIzaSyB1C7zEeYTlRI52w2lhcxl_JGuebql9S3Q");
+                                    return header;
+                                }
+                            };
+                            mRequestQue.add(request);
+                        }
+                        catch (JSONException e)
+
+                        {
+                            e.printStackTrace();
                         }
                     }
                 });
@@ -265,6 +267,10 @@ public class AddClassifiedFragment extends Fragment {
         ((EditText) getActivity()
                 .findViewById(R.id.waktu_a)).setText(cEvent.getWaktu());
         ((EditText) getActivity()
+                .findViewById(R.id.selesai_a)).setText(cEvent.getSelesai());
+        ((EditText) getActivity()
+                .findViewById(R.id.notif_a)).setText(cEvent.getNotif());
+        ((EditText) getActivity()
                 .findViewById(R.id.tempat_a)).setText(cEvent.getTempat());
     }
     private void updateClassifiedToDB(ClassifiedEvent classifiedEvent) {
@@ -283,6 +289,10 @@ public class AddClassifiedFragment extends Fragment {
                 .findViewById(R.id.tanggal_a)).getText().toString());
         event.setWaktu(((EditText) getActivity()
                 .findViewById(R.id.waktu_a)).getText().toString());
+        event.setSelesai(((EditText) getActivity()
+                .findViewById(R.id.selesai_a)).getText().toString());
+        event.setNotif(((EditText) getActivity()
+                .findViewById(R.id.notif_a)).getText().toString());
         event.setTempat(((EditText) getActivity()
                 .findViewById(R.id.tempat_a)).getText().toString());
         return event;
@@ -299,6 +309,10 @@ public class AddClassifiedFragment extends Fragment {
                 .findViewById(R.id.tanggal_a)).setText("");
         ((EditText) getActivity()
                 .findViewById(R.id.waktu_a)).setText("");
+        ((EditText) getActivity()
+                .findViewById(R.id.selesai_a)).setText("");
+        ((EditText) getActivity()
+                .findViewById(R.id.notif_a)).setText("");
         ((EditText) getActivity()
                 .findViewById(R.id.tempat_a)).setText("");
     }
