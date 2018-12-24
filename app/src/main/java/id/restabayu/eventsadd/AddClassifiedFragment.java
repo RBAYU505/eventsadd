@@ -267,8 +267,6 @@ public class AddClassifiedFragment extends Fragment {
         ((EditText) getActivity()
                 .findViewById(R.id.waktu_a)).setText(cEvent.getWaktu());
         ((EditText) getActivity()
-                .findViewById(R.id.selesai_a)).setText(cEvent.getSelesai());
-        ((EditText) getActivity()
                 .findViewById(R.id.notif_a)).setText(cEvent.getNotif());
         ((EditText) getActivity()
                 .findViewById(R.id.tempat_a)).setText(cEvent.getTempat());
@@ -289,8 +287,6 @@ public class AddClassifiedFragment extends Fragment {
                 .findViewById(R.id.tanggal_a)).getText().toString());
         event.setWaktu(((EditText) getActivity()
                 .findViewById(R.id.waktu_a)).getText().toString());
-        event.setSelesai(((EditText) getActivity()
-                .findViewById(R.id.selesai_a)).getText().toString());
         event.setNotif(((EditText) getActivity()
                 .findViewById(R.id.notif_a)).getText().toString());
         event.setTempat(((EditText) getActivity()
@@ -309,8 +305,6 @@ public class AddClassifiedFragment extends Fragment {
                 .findViewById(R.id.tanggal_a)).setText("");
         ((EditText) getActivity()
                 .findViewById(R.id.waktu_a)).setText("");
-        ((EditText) getActivity()
-                .findViewById(R.id.selesai_a)).setText("");
         ((EditText) getActivity()
                 .findViewById(R.id.notif_a)).setText("");
         ((EditText) getActivity()
