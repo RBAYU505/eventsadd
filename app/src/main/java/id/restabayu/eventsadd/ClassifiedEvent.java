@@ -7,17 +7,17 @@ public class ClassifiedEvent {
     private String deskripsi;
     private String tanggal;
     private String waktu;
-    private String notif;
+    private String interval;
     private String nama;
 
-    public ClassifiedEvent(String eventId, String kategori, String tempat, String deskripsi, String tanggal, String waktu, String notif, String nama) {
+    public ClassifiedEvent(String eventId, String kategori, String tempat, String deskripsi, String tanggal, String waktu, String interval, String nama) {
         this.eventId = eventId;
         this.kategori = kategori;
         this.tempat = tempat;
         this.deskripsi = deskripsi;
         this.tanggal = tanggal;
         this.waktu = waktu;
-        this.notif = notif;
+        this.interval = interval;
         this.nama = nama;
     }
     public ClassifiedEvent(){
@@ -48,9 +48,7 @@ public class ClassifiedEvent {
         this.waktu = waktu;
     }
 
-    public void setNotif(String notif) {
-        this.notif = notif;
-    }
+    public void setInterval(String interval) { this.interval = interval; }
 
     public void setNama(String nama) {
         this.nama = nama;
@@ -80,9 +78,8 @@ public class ClassifiedEvent {
         return waktu;
     }
 
-    public String getNotif() {
-        return notif;
-    }
+
+    public String getInterval() { return interval; }
 
     public String getNama() {
         return nama;

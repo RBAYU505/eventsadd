@@ -9,8 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +37,10 @@ import com.google.firebase.database.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -43,13 +49,24 @@ public class AddClassifiedFragment extends Fragment {
     private DatabaseReference dbRef;
     private int nextClassifiedID;
     private boolean isEdit;
-    private String eventId;
+    private String eventId, intervalID = "1";
     private Button button;
     private TextView headTxt;
+    private List<IntervalModel> dataInterval = Arrays.asList(
+            new IntervalModel("1", "30 menit"),
+            new IntervalModel("2", "1 jam"),
+            new IntervalModel("3", "3 jam"),
+            new IntervalModel("4", "6 jam"),
+            new IntervalModel("5", "12 jam"),
+            new IntervalModel("6", "24 jam")
+            
+    );
+    private ArrayAdapter<IntervalModel> adapterInterval;
 
     //nyobo volley
     private RequestQueue mRequestQue;
     private String URL = "https://fcm.googleapis.com/fcm/send";
+    private Spinner spInterval;
     //nyobo volley tutup
 
     @Override
@@ -86,6 +103,22 @@ public class AddClassifiedFragment extends Fragment {
         if (eventId != null) {
             populateUpdateEvent(); //kiem tra neu eventId != null thi se la layout edit event
         }
+
+        spInterval = view.findViewById(R.id.sp_interval);
+        adapterInterval = new ArrayAdapter<>(getActivity(), R.layout.support_simple_spinner_dropdown_item, dataInterval);
+        spInterval.setAdapter(adapterInterval);
+
+        spInterval.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                intervalID = dataInterval.get(pos).getId().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         return view;
     }
@@ -267,9 +300,8 @@ public class AddClassifiedFragment extends Fragment {
         ((EditText) getActivity()
                 .findViewById(R.id.waktu_a)).setText(cEvent.getWaktu());
         ((EditText) getActivity()
-                .findViewById(R.id.notif_a)).setText(cEvent.getNotif());
-        ((EditText) getActivity()
                 .findViewById(R.id.tempat_a)).setText(cEvent.getTempat());
+        spInterval.setSelection(adapterInterval.getPosition(adapterInterval.getItem(Integer.parseInt(cEvent.getInterval())-1)));
     }
     private void updateClassifiedToDB(ClassifiedEvent classifiedEvent) {
         addClassified(classifiedEvent, eventId);
@@ -287,10 +319,11 @@ public class AddClassifiedFragment extends Fragment {
                 .findViewById(R.id.tanggal_a)).getText().toString());
         event.setWaktu(((EditText) getActivity()
                 .findViewById(R.id.waktu_a)).getText().toString());
-        event.setNotif(((EditText) getActivity()
-                .findViewById(R.id.notif_a)).getText().toString());
+        event.setInterval(((EditText) getActivity()
+                .findViewById(R.id.interval_a)).getText().toString());
         event.setTempat(((EditText) getActivity()
                 .findViewById(R.id.tempat_a)).getText().toString());
+        event.setInterval(intervalID);
         return event;
     }
 
@@ -306,7 +339,7 @@ public class AddClassifiedFragment extends Fragment {
         ((EditText) getActivity()
                 .findViewById(R.id.waktu_a)).setText("");
         ((EditText) getActivity()
-                .findViewById(R.id.notif_a)).setText("");
+                .findViewById(R.id.interval_a)).setText("");
         ((EditText) getActivity()
                 .findViewById(R.id.tempat_a)).setText("");
     }
